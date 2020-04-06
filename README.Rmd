@@ -1,6 +1,3 @@
 ---
 title: "README.Rmd"
-output: html_document
----
-
-Pa_3
+PA_3

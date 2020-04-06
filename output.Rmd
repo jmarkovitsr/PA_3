@@ -1,28 +1,75 @@
 ---
-title: "output"
+title: "README.Rmd"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+output:
+  html_document: default
+  pdf_document: defaul
+
+Preguntas
+
+a. Examine the portion of the script you see below. In your own words what does this section do and why does it work? 
+vonset = Get starting point: 2, 2: the point when the vowel starts
+voffset = Get end point: 2, 2: the points when the vowel ends
+durationV = voffset - vonset: vowel duration is the final of the vowel less the onset of the vowel
+per20 = vonset + (durationV * 0.20): is the 20% of the total vowel duration
+per35 = vonset + (durationV * 0.35): is the 35% of the total vowel duration
+per50 = vonset + (durationV * 0.50): is the 50% of the total vowel duration
+per65 = vonset + (durationV * 0.65): is the 65% of the total vowel duration
+per80 = vonset + (durationV * 0.80): is the 80% of the total vowel duration
+
+b. In a few short sentences describe the general outline of the script, what the purpose is, and how it acheives this purpose (hint: focus on the section dividers and the comments)
+The script has three sections: 
+b.1 set up output file: praat look for the file in the data folder
+b.2 set up the loop: praat look for the stim folder a
+b.3 run the loop: 
+
+c. In a few short sentences describe how the segmenting procedure you used this week differs from that used in pa_2. What are the advantages and disadvantages?
+
+
+
+cargar base de datos 
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+df1 = read_csv("data/vowel_data.csv")
+
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Manipulate the dataframe as necessary so that you can calculate average F1/F2 centroids and trajectory length (include SD).
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+ media y SD de las variables
+ 
+```{r} 
 
-```{r cars}
-summary(cars)
+df1 %>%
+    summarise(media_f1 = mean(f1_cent), sd_f1 = sd(f1_cent), media_f2 = mean(f2_cent), sd_f2 = sd(f2_cent),  meadia_tl = mean(tl), sd_tl = sd(tl)) 
+
+
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+trajectory length as a function of vowel and language
+  
+```{r}
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+  ggplot(df1, aes(fill= language, y=tl, x=vowel)) + 
+  geom_bar(position="dodge", stat="identity")
+  
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+F1 as a function of vowel and language
+```{r}
+ggplot(df1, aes(fill= language, y=f1_cent, x=vowel)) + 
+  geom_bar(position="dodge", stat="identity")
+```
+
+
+F2 as a function of vowel and language
+```{r}
+ggplot(df1, aes(fill= language, y=f2_cent, x=vowel)) + 
+  geom_bar(position="dodge", stat="identity")
+```
+
