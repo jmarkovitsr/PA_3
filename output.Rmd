@@ -89,7 +89,7 @@ df1 %>%
 df1 %>% 
   select(vowel, language, f2_cent, f2_20, f2_35, f2_50, f2_65, f2_80 ) %>% 
   gather("formant", "f2" , - vowel, - language) %>% 
-  ggplot(aes(fill= formant, y=f1, x=vowel)) + 
+  ggplot(aes(fill= formant, y=f2, x=vowel)) + 
     geom_bar(position="dodge", stat="identity") +
     facet_grid(. ~ language)
 ```
